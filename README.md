@@ -63,19 +63,26 @@ The function will return a list of 7 numbers, which for the first calculations i
 * 55.57010945149467 0.513435325952776: Mean and stdev of dipolar coupling (in Hz)
 * 55.60290751176622: Dipolar couplings computed from final averaged distance and angle (in Hz)
 
-The dipolar coupling is calculated in two ways. For the first method, the dipolar coupling is calculated at each frame using the instantaneous distances and angles and reported as the mean and standard deviation. In the second method, the dipolar coupling is calculated at the end once the average distance and angle has been determined. The first method is likely more accurate for heterogeous MD ensembles since strong dipolar couplings (non-linear with respect to distance) associated with sporadic atomic contact can be factored into the final value. The second method may be more applicable for NMR ensembles which are restrained by harmonic terms.
+The dipolar coupling is calculated in two ways. For the first method, the dipolar coupling is calculated at each frame using the instantaneous distances and angles and reported as the mean and standard deviation. In the second method, the dipolar coupling is calculated at the end once the average distance and angle has been determined. The first method is likely more accurate for heterogeous MD ensembles since strong dipolar couplings (non-linear with respect to distance) associated with sporadic atomic contact can be factored into the final value. The second method may be more applicable for NMR ensembles that are restrained by harmonic terms.
 
 Other considerations:
 
 * Note that the atom name still needs to be explicitly defined in the function as it is not automatically recognized. 
-* Be sure that the selections each only contain one atom, else the center of mass will be used (which would not really mean much). If unsure, check the number of atoms in the selection by:
-
-	$s1 num
-	> 1
-
+* Be sure that the selections each only contain one atom, else the center of mass will be used (which would not really mean much). If unsure, check the number of atoms in the selection by typing "$s1 num" into the console.
 * The angular term is only meaningful if structures are correctly oriented with respect to the Z-axis (i.e., a membrane protein measured by oriented solid-state NMR or residual dipolar couplings).
 * Order parameters are not factored into the equations.
 
+### Example 3: Dipolar coupling from two sets of atoms
 
+The function "pairlist" builds on the others by automatically computing dipolar couplings of all possible pairwise combinations of atoms included in two selection (homo or heteronuclear). This can take a while depending on how many atoms are included in each selection. Note that the same selection can be used for both lists. For example, to compute the homonuclear 15N couplings for assessing an oriented 15N-PDSD spectrum:
 
-### Example 3: 
+	# Select all backbone nitrogens
+	set s1 [atomselect top "name N"]
+	
+	# Compute dipolar coupling with angular terms
+	pairlist $s1 15N $s1 15N -filter 1.0 -out dipolar.dat
+
+	# Without anglular dependance
+	pairlist $s1 15N $s1 15N -filter 1.0 -noangle -out dipolar_noangle.dat
+
+ 
