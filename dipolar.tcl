@@ -6,9 +6,9 @@
 #
 # Features
 # --------
-# - proc coupling: Compute homo/heteronuclear dipolar coupling from distance, angle and gyros
-# - proc pair: Compute dipolar couplings for atom pair over trajectory (proc pair)
-# - proc pairlist: Compute pair-wise dipolar couplings for two atom lists over trajectory (proc 
+# - proc coupling: Compute homo/heteronuclear dipolar coupling from distance, angle and gyros.
+# - proc pair: Compute dipolar couplings for atom pair over trajectory.
+# - proc pairlist: Compute pair-wise dipolar couplings for two atom lists over trajectory.
 
 proc coupling { dist angl type1 type2 } {
     # Compute dipolar coupling from distance and angle
